@@ -1,4 +1,4 @@
-module go-api-rest
+module goapirest
 
 go 1.22.2
 
