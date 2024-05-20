@@ -23,6 +23,8 @@ type configs struct {
 	GoogleMapsApiEndPoint string `mapstructure:"GOOGLE_MAPS_API_ENDPOINT"`
 	GoogleMapsApiPlaces string `mapstructure:"GOOGLE_MAPS_API_PLACES"`
 	GoogleMapsApiKey string `mapstructure:"GOOGLE_MAPS_API_KEY"`
+	NearbySearchRadius float32 `mapstructure:"NEARBY_SEARCH_RADIUS"`
+	IncludedTypes []string `mapstructure:"INCLUDED_TYPES"`
 }
 
 func init() {
