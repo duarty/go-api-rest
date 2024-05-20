@@ -20,6 +20,9 @@ type configs struct {
 	JWTSecretKey  string `mapstructure:"SECRET"`
 	JWTExpiresIn  int    `mapstructure:"JWT_EXPIRES_TIME"`
 	TokenAuthKey  *jwtauth.JWTAuth
+	GoogleMapsApiEndPoint string `mapstructure:"GOOGLE_MAPS_API_ENDPOINT"`
+	GoogleMapsApiPlaces string `mapstructure:"GOOGLE_MAPS_API_PLACES"`
+	GoogleMapsApiKey string `mapstructure:"GOOGLE_MAPS_API_KEY"`
 }
 
 func init() {
