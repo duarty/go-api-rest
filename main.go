@@ -30,12 +30,22 @@ type Center struct {
 	Latitude  float64 `json:"latitude"`
 }
 
+
+
 type GymResponse struct {
 	Places *[]Place `json:"places"`
 }
 
 type Place struct {
-	DisplayName DisplayName `json:"displayName"`
+	DisplayName *DisplayName `json:"displayName"`
+	PlaceID *string `json:"id"`
+	FormattedAddress *string `json:"formattedAddress"`
+	Location *Location `json:"location"`
+}
+
+type Location struct {
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
 }
 
 type DisplayName struct {
@@ -71,7 +81,7 @@ func main() {
 					"latitude": 2.8135529076686567,
 					"longitude": -60.67046458758208,
 				},
-				"radius": 10,
+				"radius": 5,
 			},
 		},
 	}
@@ -84,7 +94,6 @@ func main() {
 	body := bytes.NewBuffer(jsonData)
 
 	URL := config.GoogleMapsApiEndPoint + config.GoogleMapsApiPlaces
-
 	req, err := http.NewRequest("POST", URL, body)
 	if err != nil {
 		panic(err)
@@ -92,7 +101,7 @@ func main() {
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-Goog-Api-Key", config.GoogleMapsApiKey)
-	req.Header.Set("X-Goog-FieldMask", "places.displayName")
+	req.Header.Set("X-Goog-FieldMask", config.SearchFieldMask)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -113,6 +122,12 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Deserialized Response: %+v\n", gymResponse.Places)
+	for _,v := range *gymResponse.Places {
+		fmt.Printf("Deserialized Response: %+v\n", *v.Location)
+	}
+
+
 
 }
+
+
