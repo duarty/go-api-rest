@@ -15,3 +15,11 @@ CREATE TABLE gyms (
   longitude REAL,
   latitude REAL
 );
+
+CREATE TABLE user_gyms (
+  user_id INTEGER NOT NULL,
+  gym_id INTEGER NOT NULL,
+  PRIMARY KEY (user_id, gym_id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (gym_id) REFERENCES gyms(id)
+);
