@@ -12,7 +12,7 @@ var config *configs
 type configs struct {
 	DBDriver      string `mapstructure:"DB_DRIVER"`
 	DBHost        string `mapstructure:"DB_HOST"`
-	DBPort        string `mapstructure:"DB_PORT"`
+	DBPort        uint16 `mapstructure:"DB_PORT"`
 	DBPassword    string `mapstructure:"DB_PASSWORD"`
 	DBUser        string `mapstructure:"DB_USER"`
 	DBName        string `mapstructure:"DB_NAME"`
