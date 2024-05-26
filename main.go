@@ -5,10 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"goapirest/configs"
+	"goapirest/configs/database"
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/jackc/pgx"
+	_ "github.com/jackc/pgx/v5"
 )
+
+
 
 type GymRequest struct {
 	IncludedTypes       []string             `json:"includedTypes"`
@@ -38,8 +44,8 @@ type GymResponse struct {
 
 type Place struct {
 	DisplayName *DisplayName `json:"displayName"`
-	PlaceID *string `json:"id"`
-	FormattedAddress *string `json:"formattedAddress"`
+	PlaceID string `json:"id"`
+	FormattedAddress string `json:"formattedAddress"`
 	Location *Location `json:"location"`
 }
 
@@ -59,6 +65,10 @@ func main() {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 
+	db, err := database.DBConnection()
+	if err != nil {
+        log.Fatalf("Error connecting to database: %v", err)
+    }
 	// data := &GymRequest{
 	// 	IncludedTypes:  []string{"gym"},
 	// 	MaxResultCount: 1,
@@ -122,12 +132,60 @@ func main() {
 		return
 	}
 
+	var name *string
+	var address *string
+	var placeId *string
+	var longitude *float64
+	var latitude *float64
+
 	for _,v := range *gymResponse.Places {
-		fmt.Printf("Deserialized Response: %+v\n", *v.Location)
+		name = &v.DisplayName.Text
+		address = &v.FormattedAddress
+		placeId = &v.PlaceID
+		longitude = &v.Location.Longitude
+		latitude = &v.Location.Latitude
 	}
 
+	newGym := CreateGym(*name, *address, *placeId, *longitude, *latitude)
 
+	err = insertGym(db, newGym)
+	if err != nil {
+		panic(err)
+	}
 
+}
+
+func insertGym ( db *pgx.Conn, gym *GymData) error {
+	pstmt, err := db.Prepare("insertUser", "INSERT INTO gyms (id, name, address, placeID, longitude, latitude) VALUES ($1, $2, $3, $4, $5, $6)")
+	if err != nil {
+        log.Fatalf("Prepare failed: %v\n", err)
+    }
+
+	_, err = db.Exec(pstmt.SQL, gym.ID, gym.Name, gym.Address, gym.PlaceID, gym.Longitude, gym.Latitude)
+	if err != nil {
+		return fmt.Errorf("unable to insert user: %w", err)
+	}
+	return nil
+}
+
+func CreateGym (name string, address string, placeId string, longitude float64, latitude float64 ) *GymData {
+	return &GymData{
+		ID: 1,
+		Name: name,
+		Address: address,
+		PlaceID: placeId,
+		Longitude: longitude,
+		Latitude: latitude,
+	}
+}
+
+type GymData struct {
+	ID uint
+	Name string
+	Address string
+	PlaceID string
+	Longitude float64
+	Latitude float64
 }
 
 
