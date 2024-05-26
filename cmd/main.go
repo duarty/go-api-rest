@@ -63,7 +63,7 @@ func main() {
 	// 	},
 	// }
 	data := map[string]interface{}{
-		"includedTypes": []string{"gym"},
+		"includedTypes": []string{config.IncludedTypes},
 		"maxResultCount": 1,
 		"locationRestriction": map[string]interface{}{
 			"circle": map[string]interface{}{
@@ -71,7 +71,7 @@ func main() {
 					"latitude": 2.8135529076686567,
 					"longitude": -60.67046458758208,
 				},
-				"radius": 5,
+				"radius": config.NearbySearchRadius,
 			},
 		},
 	}
