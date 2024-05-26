@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"goapirest/configs"
-	"goapirest/configs/database"
+	"goapirest/internal/database"
+	"goapirest/internal/model"
 	"io"
 	"log"
 	"net/http"
@@ -37,27 +38,6 @@ type Center struct {
 }
 
 
-
-type GymResponse struct {
-	Places *[]Place `json:"places"`
-}
-
-type Place struct {
-	DisplayName *DisplayName `json:"displayName"`
-	PlaceID string `json:"id"`
-	FormattedAddress string `json:"formattedAddress"`
-	Location *Location `json:"location"`
-}
-
-type Location struct {
-	Longitude float64 `json:"longitude"`
-	Latitude  float64 `json:"latitude"`
-}
-
-type DisplayName struct {
-	Text         string `json:"text"`
-	LanguageCode string `json:"languageCode"`
-}
 
 func main() {
 	config, err := configs.LoadEnv(".env")
@@ -125,7 +105,7 @@ func main() {
 		return
 	}
 
-	var gymResponse GymResponse
+	var gymResponse *model.GymResponse
 	err = json.Unmarshal(responseBody, &gymResponse)
 	if err != nil {
 		fmt.Println("Error unmarshaling response:", err)
@@ -155,7 +135,7 @@ func main() {
 
 }
 
-func insertGym ( db *pgx.Conn, gym *GymData) error {
+func insertGym ( db *pgx.Conn, gym *model.GymData) error {
 	pstmt, err := db.Prepare("insertUser", "INSERT INTO gyms (id, name, address, placeID, longitude, latitude) VALUES ($1, $2, $3, $4, $5, $6)")
 	if err != nil {
         log.Fatalf("Prepare failed: %v\n", err)
@@ -168,8 +148,8 @@ func insertGym ( db *pgx.Conn, gym *GymData) error {
 	return nil
 }
 
-func CreateGym (name string, address string, placeId string, longitude float64, latitude float64 ) *GymData {
-	return &GymData{
+func CreateGym (name string, address string, placeId string, longitude float64, latitude float64 ) *model.GymData {
+	return &model.GymData{
 		ID: 1,
 		Name: name,
 		Address: address,
@@ -178,14 +158,4 @@ func CreateGym (name string, address string, placeId string, longitude float64, 
 		Latitude: latitude,
 	}
 }
-
-type GymData struct {
-	ID uint
-	Name string
-	Address string
-	PlaceID string
-	Longitude float64
-	Latitude float64
-}
-
 
