@@ -16,29 +16,6 @@ import (
 )
 
 
-
-type GymRequest struct {
-	IncludedTypes       []string             `json:"includedTypes"`
-	MaxResultCount      uint8                  `json:"maxResultCount"`
-	LocationRestriction *LocationRestriction `json:"locationRestriction"`
-}
-
-type LocationRestriction struct {
-	Circle *Circle `json:"circle"`
-}
-
-type Circle struct {
-	Center *Center `json:"center"`
-	Radius float32 `json:"radius"`
-}
-
-type Center struct {
-	Longitude float64 `json:"longitude"`
-	Latitude  float64 `json:"latitude"`
-}
-
-
-
 func main() {
 	config, err := configs.LoadEnv(".env")
 	if err != nil {
@@ -49,6 +26,7 @@ func main() {
 	if err != nil {
         log.Fatalf("Error connecting to database: %v", err)
     }
+	defer db.Close()
 	// data := &GymRequest{
 	// 	IncludedTypes:  []string{"gym"},
 	// 	MaxResultCount: 1,
