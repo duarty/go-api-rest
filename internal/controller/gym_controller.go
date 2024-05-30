@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"goapirest/internal/dto"
 	"goapirest/internal/usecases"
 	"net/http"
 )
@@ -17,5 +18,5 @@ func NewGymController (u usecases.GymUseCase) *GymController {
 }
 
 func (c *GymController) createGym(w http.ResponseWriter, r http.Request){
-
+	var gymDTO *dto.GymDTO
 }
