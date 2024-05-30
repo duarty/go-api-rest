@@ -1,27 +1,35 @@
 package repository
 
 import (
-	"goapirest/internal/model"
+	"fmt"
+	"goapirest/internal/domain/model"
+	"log"
 
 	"github.com/jackc/pgx"
 )
 
-type GymRepository interface {
-    CreateGym(gym *model.GymData) error
-}
+// type GymRepository interface {
+//     CreateGym(gym *model.Gym) error
+// }
 
-type GymRepoImpl struct {
+type GymRepo struct {
     db *pgx.Conn
 }
 
-func NewGymRepoImpl(db *pgx.Conn) *GymRepoImpl {
-    return &GymRepoImpl{db: db}
+func NewGymRepo(db *pgx.Conn) *GymRepo {
+    return &GymRepo{db: db}
 }
 
-func (r *GymRepoImpl) CreateGym(gym *model.GymData) error {
-    // Implementação para criar uma academia no banco de dados
-    // Exemplo:
-    // _, err := r.db.Exec("INSERT INTO gyms (name, address, place_id, longitude, latitude) VALUES (?, ?, ?, ?, ?)", gym.Name, gym.Address, gym.PlaceID, gym.Longitude, gym.Latitude)
-    // return err
-    return nil // Substitua pelo código real de inserção
+func (r *GymRepo) CreateGym(gym *model.Gym) error {
+	pstmt, err := r.db.Prepare("createGym", "INSERT INTO gyms (id, name, address, placeID, longitude, latitude) VALUES ($1, $2, $3, $4, $5, $6)")
+	if err != nil {
+        log.Fatalf("Prepare failed: %v\n", err)
+    }
+
+	_, err =  r.db.Exec(pstmt.SQL, gym.ID, gym.Name, gym.Address, gym.PlaceID, gym.Longitude, gym.Latitude)
+	if err != nil {
+		return fmt.Errorf("unable to insert user: %w", err)
+	}
+	return nil
 }
+
