@@ -1,18 +1,18 @@
 package service
 
 import (
-	"goapirest/internal/model"
+	"goapirest/internal/domain/model"
 	"goapirest/internal/repository"
 )
 
 type GymService struct {
-    repo repository.GymRepository
+    repo repository.GymRepo
 }
 
-func NewGymService(repo repository.GymRepository) *GymService {
+func NewGymService(repo repository.GymRepo) *GymService {
     return &GymService{repo: repo}
 }
 
-func (s *GymService) CreateGym(gymData *model.GymData) error {
-    return s.repo.CreateGym(gymData)
+func (s *GymService) CreateGym(gym *model.Gym) error {
+    return s.repo.CreateGym(gym)
 }
