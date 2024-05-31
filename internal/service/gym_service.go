@@ -6,13 +6,13 @@ import (
 )
 
 type GymService struct {
-    repo repository.GymRepo
+	repo repository.GymRepository
 }
 
-func NewGymService(repo repository.GymRepo) *GymService {
-    return &GymService{repo: repo}
+func NewGymService(repo repository.GymRepository) *GymService {
+	return &GymService{repo: repo}
 }
 
 func (s *GymService) CreateGym(gym *model.Gym) error {
-    return s.repo.CreateGym(gym)
+	return s.repo.CreateGym(gym)
 }
