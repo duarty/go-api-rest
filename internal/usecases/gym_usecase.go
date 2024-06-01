@@ -5,19 +5,19 @@ import (
 )
 
 type GymService interface {
-	CreateGym(gym *model.Gym) error
+    CreateGym(gym *model.Gym) error
 }
 
-type GymUseCase struct {
-	service GymService
+type GymUsecase struct {
+    gymService GymService
 }
 
-func NewGymUseCase(service GymService) *GymUseCase {
-	return &GymUseCase{
-		service: service,
-	}
+func NewGymUsecase(s GymService) *GymUsecase {
+    return &GymUsecase{
+        gymService: s,
+    }
 }
 
-func (u *GymUseCase) CreateGym(gym *model.Gym) error {
-	return u.service.CreateGym(gym)
+func (u *GymUsecase) CreateGym(gym *model.Gym) error {
+    return u.gymService.CreateGym(gym)
 }

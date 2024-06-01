@@ -8,10 +8,10 @@ import (
 
 
 type GymController struct {
-	gymUseCase usecases.GymUseCase
+	gymUseCase usecases.GymUsecase
 }
 
-func NewGymController (u usecases.GymUseCase) *GymController {
+func NewGymController (u usecases.GymUsecase) *GymController {
 	return	&GymController{
 		gymUseCase: u,
 	}

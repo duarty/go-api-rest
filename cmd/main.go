@@ -27,7 +27,7 @@ func main() {
 
 	gymRepo := repository.NewGymRepo(db)
 	gymService := service.NewGymService(gymRepo)
-
+	gymUsecase := gymService.CreateGym()
 	// defer db.Close()
 	// data := &GymRequest{
 	// 	IncludedTypes:  []string{"gym"},
