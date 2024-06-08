@@ -1,22 +1,18 @@
 package controller
 
 import (
-	"goapirest/internal/dto"
-	"goapirest/internal/usecases"
+	"goapirest/internal/usecase"
 	"net/http"
 )
 
-
 type GymController struct {
-	gymUseCase usecases.GymUsecase
+    userUseCase *usecase.CreateGymUseCase
 }
 
-func NewGymController (u usecases.GymUsecase) *GymController {
-	return	&GymController{
-		gymUseCase: u,
-	}
+func NewGymController(u *usecase.CreateGymUseCase) *GymController {
+	return &GymController{userUseCase: u}
 }
 
-func (c *GymController) createGym(w http.ResponseWriter, r http.Request){
-	var gymDTO *dto.GymDTO
+func (c *GymController) Create(r http.Request, w http.ResponseWriter){
+
 }
