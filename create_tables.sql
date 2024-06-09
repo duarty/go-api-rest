@@ -1,5 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE,
   username VARCHAR(80) NOT NULL UNIQUE,
@@ -8,7 +10,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE gyms (
-  id SERIAL PRIMARY KEY,
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   address VARCHAR(255),
   placeID VARCHAR(50) UNIQUE,
@@ -17,8 +19,8 @@ CREATE TABLE gyms (
 );
 
 CREATE TABLE user_gyms (
-  user_id INTEGER NOT NULL,
-  gym_id INTEGER NOT NULL,
+  user_id UUID NOT NULL,
+  gym_id UUID NOT NULL,
   PRIMARY KEY (user_id, gym_id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (gym_id) REFERENCES gyms(id)
