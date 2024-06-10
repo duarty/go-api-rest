@@ -3,16 +3,12 @@ package main
 import (
 	"fmt"
 	"goapirest/configs"
-	"log"
-
 	"goapirest/internal/app"
-	"goapirest/internal/database"
-	"goapirest/internal/repository"
-	"goapirest/internal/service"
+	"goapirest/internal/infra/database"
+	"log"
 
 	_ "github.com/jackc/pgx/v5"
 )
-
 
 func main() {
 	_, err := configs.LoadEnv(".env")
@@ -21,13 +17,10 @@ func main() {
 	}
 	db, err := database.DBConnection()
 	if err != nil {
-        log.Fatalf("Error connecting to database: %v", err)
-    }
+		log.Fatalf("Error connecting to database: %v", err)
+	}
 	app.Server()
 
-	gymRepo := repository.NewGymRepo(db)
-	gymService := service.NewGymService(gymRepo)
-	gymUsecase := gymService.CreateGym()
 	// defer db.Close()
 	// data := &GymRequest{
 	// 	IncludedTypes:  []string{"gym"},
@@ -138,4 +131,3 @@ func main() {
 // 		Latitude: latitude,
 // 	}
 // }
-
