@@ -7,18 +7,17 @@ import (
 	"github.com/jackc/pgx"
 )
 
-
-func DBConnection () (*pgx.Conn, error) {
+func DBConnection() (*pgx.Conn, error) {
 	config, err := configs.LoadEnv(".env")
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 
 	postgresConfig := pgx.ConnConfig{
-		Host: config.DBHost,
-		Port: config.DBPort,
+		Host:     config.DBHost,
+		Port:     config.DBPort,
 		Database: config.DBName,
-		User: config.DBUser,
+		User:     config.DBUser,
 		Password: config.DBPassword,
 	}
 
@@ -31,4 +30,3 @@ func DBConnection () (*pgx.Conn, error) {
 	return conn, nil
 
 }
-

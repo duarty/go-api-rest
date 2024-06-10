@@ -22,16 +22,15 @@ type Center struct {
 	Latitude  float64
 }
 
-
 type GymResponse struct {
 	Places *[]Place
 }
 
 type Place struct {
-	DisplayName *DisplayName
-	PlaceID string
+	DisplayName      *DisplayName
+	PlaceID          string
 	FormattedAddress string
-	Location *Location
+	Location         *Location
 }
 
 type Location struct {
@@ -45,20 +44,20 @@ type DisplayName struct {
 }
 
 type Gym struct {
-	Name string
-	Address string
-	PlaceID string
+	Name      string
+	Address   string
+	PlaceID   string
 	Longitude float64
-	Latitude float64
+	Latitude  float64
 }
 
-func NewGym (name, address, placeId string, longitude, latitude float64 ) (*Gym, error) {
+func NewGym(name, address, placeId string, longitude, latitude float64) (*Gym, error) {
 	gym := &Gym{
-		Name: name,
-		Address: address,
-		PlaceID: placeId,
+		Name:      name,
+		Address:   address,
+		PlaceID:   placeId,
 		Longitude: longitude,
-		Latitude: latitude,
+		Latitude:  latitude,
 	}
 
 	err := gym.isValid()
@@ -81,10 +80,8 @@ func (g *Gym) isValid() error {
 	if g.Latitude < -90.0 && g.Latitude > 90.0 {
 		return errors.New("Latitude is invalid")
 	}
-	if g.Longitude < -180.0 && g.Longitude > 180.0  {
+	if g.Longitude < -180.0 && g.Longitude > 180.0 {
 		return errors.New("Longitude is invalid")
 	}
 	return nil
 }
-
-

@@ -17,7 +17,7 @@ func NewGymRepository(db *pgx.Conn) *GymRepository {
 }
 
 func (r *GymRepository) Save(gym *entity.Gym) error {
-	pstmt, err := r.Db.Prepare( "saveGym", "INSERT INTO gyms (name, address, placeID, longitude, latitude) VALUES ($1, $2, $3, $4, $5)")
+	pstmt, err := r.Db.Prepare("saveGym", "INSERT INTO gyms (name, address, placeID, longitude, latitude) VALUES ($1, $2, $3, $4, $5)")
 	if err != nil {
 		log.Fatalf("Prepare failed: %v\n", err)
 	}
