@@ -45,7 +45,6 @@ type DisplayName struct {
 }
 
 type Gym struct {
-	//ID uint
 	Name string
 	Address string
 	PlaceID string
@@ -55,7 +54,6 @@ type Gym struct {
 
 func NewGym (name, address, placeId string, longitude, latitude float64 ) (*Gym, error) {
 	gym := &Gym{
-		//ID: 1,
 		Name: name,
 		Address: address,
 		PlaceID: placeId,
