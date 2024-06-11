@@ -9,6 +9,10 @@ type GymInputDTO struct {
 	Latitude  float64 `json:"latitude"`
 }
 
+type GymOutputDTO struct {
+	Gyms *[]GymRequest
+}
+
 type GymRequest struct {
 	IncludedTypes       []string             `json:"includedTypes"`
 	MaxResultCount      uint8                `json:"maxResultCount"`
