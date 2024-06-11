@@ -1,5 +1,10 @@
 package dto
 
+type CheckInDTO struct {
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+}
+
 type GymInputDTO struct {
 	ID        uint    `json:"id"`
 	Name      string  `json:"name"`
