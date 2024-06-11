@@ -1,7 +1,22 @@
 package usecase
 
-type CreateGymUseCase struct {
-	GymRepo repository.GymRepository
+import (
+	"goapirest/internal/dto"
+	"goapirest/internal/entity"
+	"goapirest/internal/infra/database"
+)
+
+type GymUseCase struct {
+	gymRepo *database.GymRepository
+}
+
+func NewGymUseCase(r *database.GymRepository) *GymUseCase {
+	return &GymUseCase{gymRepo: r}
+}
+
+func (u *GymUseCase) Execute(gym *entity.GymRequest) *dto.GymOutputDTO {
+	gyms := u.gymRepo.GetSavedGyms(gym)
+
 }
 
 // package usecase

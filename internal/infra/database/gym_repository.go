@@ -16,7 +16,11 @@ func NewGymRepository(db *pgx.Conn) *GymRepository {
 	return &GymRepository{Db: db}
 }
 
-func (r *GymRepository) Save(gym *entity.Gym) error {
+func (r *GymRepository) GetSavedGyms(gym *entity.GymRequest) []entity.Gym {
+	//puxar academias no raio passando longitude e latitude
+}
+
+func (r *GymRepository) SaveGym(gym *entity.Gym) error {
 	pstmt, err := r.Db.Prepare("saveGym", "INSERT INTO gyms (name, address, placeID, longitude, latitude) VALUES ($1, $2, $3, $4, $5)")
 	if err != nil {
 		log.Fatalf("Prepare failed: %v\n", err)
