@@ -2,6 +2,11 @@ package entity
 
 import "errors"
 
+type CheckInCoordinates struct {
+	Longitude float64
+	Latitude  float64
+}
+
 type GymRequest struct {
 	IncludedTypes       []string
 	MaxResultCount      uint8

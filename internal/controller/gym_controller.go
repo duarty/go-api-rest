@@ -6,8 +6,7 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
-	"goapirest/internal/dto"
+	"goapirest/internal/entity"
 	"goapirest/internal/usecase"
 	"io"
 	"net/http"
@@ -43,18 +42,19 @@ func (c *GymController) CreateGymController(w http.ResponseWriter, r *http.Reque
 
 	// body := bytes.NewBuffer(jsonData)
 	if r.Method == "POST" {
+
 		defer r.Body.Close()
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			panic(err)
 		}
-		var format dto.CheckInDTO
-		err = json.Unmarshal(body, &format)
+
+		var checkInCoordinates *entity.CheckInCoordinates
+		err = json.Unmarshal(body, &checkInCoordinates)
 		if err != nil {
 			panic(err)
 		}
-
-		fmt.Print(format.Latitude)
+		c.gymUseCase.Execute(checkInCoordinates)
 	}
 
 	// if r.Method == "GET" {
