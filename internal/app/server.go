@@ -1,16 +1,23 @@
 package app
 
 import (
-	"io"
+	"goapirest/internal/controller"
+	"goapirest/internal/infra/database"
+	"goapirest/internal/usecase"
 	"log"
 	"net/http"
 )
 
 func Server() {
-	helloHandler := func(w http.ResponseWriter, req *http.Request) {
-		io.WriteString(w, "Hello, world!\n")
+	db, err := database.DBConnection()
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	http.HandleFunc("/hello", helloHandler)
+	gymRepo := database.NewGymRepository(db)
+	gymUseCase := usecase.NewGymUseCase(gymRepo)
+	gymController := controller.NewGymController(gymUseCase)
+
+	http.HandleFunc("/create-gym", gymController.CreateGymController)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
